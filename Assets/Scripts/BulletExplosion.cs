@@ -17,12 +17,21 @@ public class BulletExplosion : BoxColorCollision {
         changeBoxColor(color);
 	}
 
-	void OnCollisionEnter(Collision collision) {
-        if(collision.gameObject.tag == AllTags.TERRAIN) {
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == AllTags.TERRAIN)
+        {
             collision.gameObject.GetComponent<BoxColorCollision>().changeBoxColor(color);
             GameArcadeController.Instance.BoxPainted();
             Destroy(gameObject);
-        } else {
+        }
+        else if (collision.gameObject.tag == AllTags.ENEMY)
+        {
+            collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(50, collision.transform.position);
+            Destroy(gameObject);
+        }
+        else
+        {
             Destroy(gameObject, 2.0f);
         }
     }
