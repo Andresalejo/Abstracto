@@ -1,14 +1,20 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ShotPlayer : MonoBehaviour {
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
     [Range(2f, 40f)] public float speed = 20f;
     public Color[] colors;
+    public Button buttonColor;
     private int indexColor = 0;
 
-    void Update() {
+	private void Start() {
+        updateColorUI();
+	}
+
+	void Update() {
         if (Input.GetMouseButtonDown(0)){
             Fire();
         }
@@ -46,7 +52,11 @@ public class ShotPlayer : MonoBehaviour {
     }
 
     private void updateColorUI() {
-        //TODO update UI
         Debug.Log(string.Concat("Index color: ", indexColor));
+        if (buttonColor != null) {
+            ColorBlock colorBlock = buttonColor.colors;
+            colorBlock.normalColor = colors[indexColor];
+            buttonColor.colors = colorBlock;
+        }
     }
 }
