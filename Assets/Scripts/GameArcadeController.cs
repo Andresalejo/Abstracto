@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class GameArcadeController : MonoBehaviour {
 
@@ -14,6 +15,7 @@ public class GameArcadeController : MonoBehaviour {
     public bool pause = false;
     public bool endGame = false;
     public BoxColorCollision[] boxColorCollisions;
+    public GameObject player;
 
     public static GameArcadeController Instance { get; private set; }
 
@@ -28,21 +30,24 @@ public class GameArcadeController : MonoBehaviour {
     }
 
 	private void Start() {
+        player = GameObject.FindGameObjectWithTag("Player");
         boxColorCollisions = FindObjectsOfType<BoxColorCollision>();
 	}
 
 	private void Update() {
         if(Input.GetButtonDown("Cancel")) {
             pause = !pause;
+            if (!pause) {
+                Time.timeScale = 1f;
+            } else {
+                Time.timeScale = 0f;
+            }
         }
 	}
 
 	private void FixedUpdate() {
         if (!pause) {
             timeCount = timeCount + Time.deltaTime;
-            Time.timeScale = 1f;
-        } else {
-            Time.timeScale = 0f;
         }
 	}
 
@@ -64,6 +69,10 @@ public class GameArcadeController : MonoBehaviour {
     public void EnemyDamage() {
         playerLife = playerLife - damageEnemy;
         Debug.Log(string.Concat("Vida: ", playerLife));
+        if(playerLife < 0f) {
+            FinishGame();
+            PlayLoseMusic();
+        }
     }
 
     public void CheckBoxesPainted() {
@@ -74,9 +83,23 @@ public class GameArcadeController : MonoBehaviour {
             }
         }
         if(!thereAreUnPainted) {
-            endGame = true;
-            pause = true;
+            FinishGame();
+            PlayWinMusic();
         }
+    }
+
+    public void FinishGame() {
+        endGame = true;
+        pause = true;
+        player.GetComponent<FirstPersonController>().enabled = false;
+    }
+
+    public void PlayWinMusic() {
+        
+    }
+
+    public void PlayLoseMusic() {
+
     }
 	
 }
