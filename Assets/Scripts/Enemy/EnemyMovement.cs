@@ -4,29 +4,20 @@ using System.Collections;
 public class EnemyMovement : MonoBehaviour
 {
     Transform player;
-    //PlayerHealth playerHealth;
-    //EnemyHealth enemyHealth;
+    EnemyHealth enemyHealth;
     UnityEngine.AI.NavMeshAgent nav;
 
-
-    void Awake ()
-    {
+    void Awake () {
         player = GameObject.FindGameObjectWithTag ("Player").transform;
-        //playerHealth = player.GetComponent <PlayerHealth> ();
-        //enemyHealth = GetComponent <EnemyHealth> ();
+        enemyHealth = GetComponent <EnemyHealth> ();
         nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
     }
 
-
-    void Update ()
-    {
-        //if(enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
-        //{
+    void Update () {
+        if(enemyHealth.currentHealth > 0 && GameArcadeController.Instance.playerLife > 0) {
             nav.SetDestination (player.position);
-        //}
-        //else
-        //{
-        //    nav.enabled = false;
-        //}
+        } else {
+            nav.enabled = false;
+        }
     }
 }

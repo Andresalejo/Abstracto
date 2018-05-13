@@ -5,7 +5,7 @@ using UnityEngine;
 public class BoxColorCollision : MonoBehaviour {
 
     private Renderer renderer;
-    private bool painted = false;
+    public bool painted { get; private set; }
 
     void Awake() {
         renderer = GetComponent<Renderer>();

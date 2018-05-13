@@ -20,4 +20,18 @@ public class StringUtils {
         }
         return string.Concat("0", points);
     }
+
+    public static string SecondsToHours(float time) {
+        float seconds = time % 60;
+        float minutes = time / 60;
+        float hours = minutes / 60;
+        return string.Format("{0:D2}:{1:D2}:{2:D2}", OneZeroToLeft(hours), OneZeroToLeft(minutes), OneZeroToLeft(seconds));
+    }
+
+    public static string OneZeroToLeft(float digit){
+        if(digit < 10) {
+            return string.Concat("0", digit);
+        }
+        return string.Concat("", digit);
+    }
 }

@@ -11,6 +11,7 @@ public class ShotPlayer : MonoBehaviour {
     private int indexColor = 0;
 
 	private void Start() {
+        colors = AllTags.colors;
         UpdateColorUI();
 	}
 

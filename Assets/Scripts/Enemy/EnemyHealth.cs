@@ -76,6 +76,7 @@ public class EnemyHealth : MonoBehaviour
     {
         Instantiate(destroyedVersion, transform.position, transform.rotation);
         Destroy(gameObject);
+        GameArcadeController.Instance.EnemyDestroyed();
     }
 
 

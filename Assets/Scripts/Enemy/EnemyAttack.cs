@@ -9,62 +9,48 @@ public class EnemyAttack : MonoBehaviour
 
     Animator anim;
     GameObject player;
-    //PlayerHealth playerHealth;
-    //EnemyHealth enemyHealth;
+    EnemyHealth enemyHealth;
     bool playerInRange;
     float timer;
 
 
-    void Awake ()
-    {
+    void Awake () {
         player = GameObject.FindGameObjectWithTag ("Player");
-        //playerHealth = player.GetComponent <PlayerHealth> ();
-        //enemyHealth = GetComponent<EnemyHealth>();
+        enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
     }
 
-
-    void OnTriggerEnter (Collider other)
-    {
-        if(other.gameObject == player)
-        {
+	private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject == player) {
             playerInRange = true;
         }
-    }
+	}
 
-
-    void OnTriggerExit (Collider other)
-    {
-        if(other.gameObject == player)
-        {
+	private void OnCollisionExit(Collision collision) {
+        if (collision.gameObject == player) {
             playerInRange = false;
         }
-    }
+	}
 
-
-    void Update ()
-    {
+    void Update () {
         timer += Time.deltaTime;
-
-        if(timer >= timeBetweenAttacks && playerInRange/* && enemyHealth.currentHealth > 0*/)
-        {
+        if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0) {
             Attack ();
         }
 
-        /*if(playerHealth.currentHealth <= 0)
-        {
-            anim.SetTrigger ("PlayerDead");
-        }*/
+        if(GameArcadeController.Instance.playerLife <= 0) {
+            anim.SetTrigger ("PlayerDeath");
+        }
     }
 
 
-    void Attack ()
-    {
+    void Attack () {
         timer = 0f;
-
-        /*if(playerHealth.currentHealth > 0)
-        {
-            playerHealth.TakeDamage (attackDamage);
-        }*/
+        if(GameArcadeController.Instance.playerLife > 0) {
+            anim.SetBool("Attack", true);
+            GameArcadeController.Instance.EnemyDamage();
+        } else {
+            anim.SetBool("Attack", false);
+        }
     }
 }
