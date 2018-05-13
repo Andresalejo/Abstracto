@@ -3,14 +3,13 @@ using System.Collections;
 
 public class EnemyAttack : MonoBehaviour
 {
-    public float timeBetweenAttacks = 0.5f;
+    public float timeBetweenAttacks = 3f;
     public int attackDamage = 10;
 
 
     Animator anim;
     GameObject player;
     EnemyHealth enemyHealth;
-    bool playerInRange;
     float timer;
 
 
@@ -20,22 +19,22 @@ public class EnemyAttack : MonoBehaviour
         anim = GetComponent <Animator> ();
     }
 
-	private void OnCollisionEnter(Collision collision) {
+	private void OnCollisionStay(Collision collision) {
         if (collision.gameObject == player) {
-            playerInRange = true;
-        }
-	}
-
-	private void OnCollisionExit(Collision collision) {
-        if (collision.gameObject == player) {
-            playerInRange = false;
+            if(timer >= timeBetweenAttacks && enemyHealth.currentHealth > 0) {
+                GameArcadeController.Instance.EnemyDamage();
+                timer = 0f;
+            }
         }
 	}
 
     void Update () {
         timer += Time.deltaTime;
-        if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0) {
-            Attack ();
+        float playerDistance = Vector3.Distance(transform.position, player.transform.position);
+        if(playerDistance < 2.5f) {
+            Attack();
+        } else {
+            anim.SetBool("Attack", false);
         }
 
         if(GameArcadeController.Instance.playerLife <= 0) {
@@ -45,10 +44,8 @@ public class EnemyAttack : MonoBehaviour
 
 
     void Attack () {
-        timer = 0f;
         if(GameArcadeController.Instance.playerLife > 0) {
             anim.SetBool("Attack", true);
-            GameArcadeController.Instance.EnemyDamage();
         } else {
             anim.SetBool("Attack", false);
         }
