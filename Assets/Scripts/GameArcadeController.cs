@@ -92,6 +92,7 @@ public class GameArcadeController : MonoBehaviour {
         endGame = true;
         pause = true;
         player.GetComponent<FirstPersonController>().enabled = false;
+        Time.timeScale = 0f;
     }
 
     public void PlayWinMusic() {
