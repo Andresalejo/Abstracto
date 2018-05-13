@@ -2,18 +2,23 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
+
 public class ShotPlayer : MonoBehaviour {
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
     [Range(2f, 40f)] public float speed = 20f;
     public Color[] colors;
     public Button buttonColor;
+    public AudioClip disparo;
     private int indexColor = 0;
+    AudioSource aSource;
 
-	private void Start() {
+    private void Start() {
         colors = AllTags.colors;
         UpdateColorUI();
-	}
+        aSource = GetComponent<AudioSource>();
+
+    }
 
 	void Update() {
         if (Input.GetMouseButtonDown(0)){
@@ -49,6 +54,8 @@ public class ShotPlayer : MonoBehaviour {
             bulletSpawn.position,
             bulletSpawn.rotation);
         bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * speed;
+        aSource.Play();
+
     }
 
     private void UpdateColorUI() {
