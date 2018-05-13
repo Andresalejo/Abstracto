@@ -2,7 +2,6 @@
 
 public class EnemyManager : MonoBehaviour
 {
-    public PlayerHealth playerHealth;
     public GameObject enemy;
     public float spawnTime = 3f;
     public Transform[] spawnPoints;
@@ -10,13 +9,14 @@ public class EnemyManager : MonoBehaviour
 
     void Start ()
     {
+        Spawn();
         InvokeRepeating ("Spawn", spawnTime, spawnTime);
     }
 
 
     void Spawn ()
     {
-        if(playerHealth.currentHealth <= 0f)
+        if(GameArcadeController.Instance.playerLife <= 0f)
         {
             return;
         }

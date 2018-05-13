@@ -46,9 +46,10 @@ public class EnemyHealth : MonoBehaviour
         enemyAudio.Play ();
 
         currentHealth -= amount;
-            
-        hitParticles.transform.position = hitPoint;
-        hitParticles.Play();
+        if (hitParticles != null) {
+            hitParticles.transform.position = hitPoint;
+            hitParticles.Play();
+        }
 
         if(currentHealth <= 0)
         {
@@ -64,9 +65,10 @@ public class EnemyHealth : MonoBehaviour
         capsuleCollider.isTrigger = true;
 
         anim.SetTrigger ("Dead");
-
-        enemyAudio.clip = deathClip;
-        enemyAudio.Play ();
+        if (deathClip != null) {
+            enemyAudio.clip = deathClip;
+            enemyAudio.Play();
+        }
         DeathAnimation();
     }
 
