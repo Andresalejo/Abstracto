@@ -55,6 +55,7 @@ public class GameArcadeController : MonoBehaviour {
         playerLife = 100;
         gamePoints = 0;
         timeCount = 0;
+        Time.timeScale = 1f;
     }
 
     public void EnemyDestroyed() {
@@ -69,9 +70,9 @@ public class GameArcadeController : MonoBehaviour {
     public void EnemyDamage() {
         playerLife = playerLife - damageEnemy;
         Debug.Log(string.Concat("Vida: ", playerLife));
-        if(playerLife < 0f) {
+        if(playerLife <= 0f) {
             FinishGame();
-            PlayLoseMusic();
+            GameOver();
         }
     }
 
@@ -99,7 +100,9 @@ public class GameArcadeController : MonoBehaviour {
         
     }
 
-    public void PlayLoseMusic() {
+    public void GameOver() {
+        Application.LoadLevel("GameOver");
+        ResetGame();
 
     }
 	
