@@ -11,7 +11,7 @@ public class ShotPlayer : MonoBehaviour {
     private int indexColor = 0;
 
 	private void Start() {
-        updateColorUI();
+        UpdateColorUI();
 	}
 
 	void Update() {
@@ -19,26 +19,26 @@ public class ShotPlayer : MonoBehaviour {
             Fire();
         }
         if (Input.GetAxis(AllTags.INPUT_MOUSE_SCROLL) > 0f) {
-            colorForward();
+            ColorForward();
         } else if (Input.GetAxis(AllTags.INPUT_MOUSE_SCROLL) < 0f) {
-            colorBackward();
+            ColorBackward();
         }
     }
 
-    private void colorForward() {
+    private void ColorForward() {
         indexColor++;
         if(indexColor >= colors.Length) {
             indexColor = 0;
         }
-        updateColorUI();
+        UpdateColorUI();
     }
 
-    private void colorBackward() {
+    private void ColorBackward() {
         indexColor--;
         if (indexColor < 0) {
             indexColor = colors.Length - 1;
         }
-        updateColorUI();
+        UpdateColorUI();
     }
 
     private void Fire() {
@@ -47,12 +47,10 @@ public class ShotPlayer : MonoBehaviour {
             bulletPrefab,
             bulletSpawn.position,
             bulletSpawn.rotation);
-        // Add velocity to the bullet
         bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * speed;
     }
 
-    private void updateColorUI() {
-        Debug.Log(string.Concat("Index color: ", indexColor));
+    private void UpdateColorUI() {
         if (buttonColor != null) {
             ColorBlock colorBlock = buttonColor.colors;
             colorBlock.normalColor = colors[indexColor];

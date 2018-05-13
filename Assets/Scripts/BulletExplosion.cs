@@ -20,8 +20,10 @@ public class BulletExplosion : BoxColorCollision {
 	void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.tag == AllTags.TERRAIN) {
             collision.gameObject.GetComponent<BoxColorCollision>().changeBoxColor(color);
-            Debug.Log(string.Concat("colision con " , collision.gameObject.name));
+            GameArcadeController.Instance.BoxPainted();
+            Destroy(gameObject);
+        } else {
+            Destroy(gameObject, 2.0f);
         }
-        Destroy(gameObject);
     }
 }
